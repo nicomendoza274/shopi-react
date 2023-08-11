@@ -1,10 +1,9 @@
+import Layout from "../../Components/Layout";
+
 function MyOrder() {
-    return (
-        <div className='bg-teal-700'>
-        MyOrder
-        </div>
-    )
+  return (
+    <Layout>MyOrder</Layout>
+  );
 }
-  
-export default MyOrder
-  
+
+export default MyOrder;
