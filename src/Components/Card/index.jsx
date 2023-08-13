@@ -5,11 +5,14 @@ import { ShoppingCartContext } from '../../Context'
 const Card = (data) => {
   const record = data.data
   const context = useContext(ShoppingCartContext)
-  const addCount = () => context.setCount(context.count + 1)
-  const openDetail = () => context.openProductDetail()
   const showProduct = (productDetail) => {
     context.setProductToShow(productDetail)
-    openDetail()
+    context.openProductDetail()
+  }
+
+  const addProductsToCart = (productData) => {
+    context.setCartProducts([...context.cartProducts, productData])
+    context.setCount(context.count + 1)
   }
   
   return (
@@ -22,7 +25,7 @@ const Card = (data) => {
         <img className='w-full h-full object-cover object-top rounded-lg' src={record.images[0]} alt={record.title} />
         <div 
           className='absolute top-0 right-0 flex justify-center items-center bg-white w-6 h-6 rounded-full m-2 p-1'
-          onClick={addCount}
+          onClick={() => addProductsToCart(record)}
         >
           <PlusIcon className='h-6 w-6 text-black'/>
         </div>
