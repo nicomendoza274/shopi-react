@@ -9,6 +9,12 @@ const CheckoutSideMenu = () => {
   const isCheckoutSideMenuOpen = context.isCheckoutSideMenuOpen
   const closeCheckoutSideMenu = () => context.closeCheckoutSideMenu()
 
+  const removeProduct = (id) => {
+    const filtered = context.cartProducts.filter(product => product.id !== id)
+    context.setCartProducts(filtered)
+    context.setCount(context.count - 1)
+  }
+
   return (
     <aside 
       className={`${isCheckoutSideMenuOpen ? 'flex' : 'hidden'} checkout-side-menu  flex-col fixed right-0 border border-black rounded bg-white`}
@@ -23,10 +29,12 @@ const CheckoutSideMenu = () => {
         {
           context.cartProducts.map((product) =>(
             <OrderCard
+              id={product.id}
               key={product.id}
               title={product.title} 
               imageUrl={product.images}
               price={product.price}
+              removeProduct = {removeProduct}
             />
           ))
         }
