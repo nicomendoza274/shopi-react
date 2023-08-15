@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
-import { createContext, useState } from 'react';
+import { createContext, useState, useEffect } from 'react';
+import { apiUrl } from '../api'
 
 export const ShoppingCartContext = createContext()
 
@@ -24,9 +25,17 @@ export const ShoppingCartProvider = ({children}) => {
     // Product Detail * Show PRoduct
     const [productToShow, setProductToShow] = useState({})
 
+    // Get products
+    const [items, setItems] = useState(null)
 
+    useEffect(() => {
+        fetch(`${apiUrl}/products`)
+          .then(response => response.json())
+          .then(data => {
+            setItems(data)
+          })
+      }, [])
 
-    
     return(
         <ShoppingCartContext.Provider value= {{
             count,
@@ -42,7 +51,9 @@ export const ShoppingCartProvider = ({children}) => {
             closeCheckoutSideMenu,
             isCheckoutSideMenuOpen,
             order,
-            setOrder
+            setOrder,
+            items,
+            setItems
         }}>
             {children}
         </ShoppingCartContext.Provider>
