@@ -8,6 +8,25 @@ const Home = () => {
     
     const context = useContext(ShoppingCartContext)
 
+    const renderView = () => {
+      const items = context.searchByTitle?.length > 0 ?
+        context.filteredItems :
+        context.items
+      
+
+      if (items?.length > 0) {
+        return (
+          items?.map(
+            (item) => (<Card key={item.id} data={item} />)
+          )
+        )
+      } else {
+        return (
+          <p className='font-medium text-xl'> No result Found </p>
+        )
+      }
+    }
+
     return (
       <Layout>
         <div className='flex items-center justify-center w-80 relative mb-4'>
@@ -20,9 +39,7 @@ const Home = () => {
           onChange={(event) => context.setSearchByTitle(event.target.value) }
         />
         <div className='grid gap-4 grid-cols-4 w-full max-w-screen-lg'>
-        {
-          context.items?.map((item) => (<Card key={item.id} data={item} />))
-        }
+        {renderView()}
         </div>
         <ProductDetail />
       </Layout>
