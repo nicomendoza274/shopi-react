@@ -9,7 +9,7 @@ const Home = () => {
     const context = useContext(ShoppingCartContext)
 
     const renderView = () => {
-      const items = context.searchByTitle?.length > 0 ?
+      const items = context.searchByTitle?.length > 0 || context.searchByCategory ?
         context.filteredItems :
         context.items
       

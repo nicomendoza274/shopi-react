@@ -31,7 +31,8 @@ export const ShoppingCartProvider = ({children}) => {
 
     //Get product by title
     const [searchByTitle, setSearchByTitle] = useState(null)
-    console.log('searchByTitle =>', searchByTitle)
+    //Get product by category
+    const [searchByCategory, setSearchByCategory] = useState(null)
 
     useEffect(() => {
         fetch(`${apiUrl}/products`)
@@ -42,13 +43,22 @@ export const ShoppingCartProvider = ({children}) => {
       }, [])
 
 
-    const filteredItemsByTitle = (items, searchByTitle) => {
-        return items?.filter(item => item.title.toLowerCase().includes(searchByTitle.toLowerCase()))
+    const filterItemsMultiple = (items, searchByTitle, searchByCategory) => {
+        let newFilter = items
+        
+        if (searchByTitle) {
+            newFilter = newFilter?.filter(item => item.title.toLowerCase().includes(searchByTitle.toLowerCase()))
+        }
+
+        if (searchByCategory) {
+            newFilter = newFilter?.filter(item => item.category.id === searchByCategory )
+        }
+        return newFilter
     }
 
     useEffect(() => {
-        if (searchByTitle) setFilteredItems(filteredItemsByTitle(items, searchByTitle))
-    }, [items, searchByTitle])
+        setFilteredItems(filterItemsMultiple(items, searchByTitle, searchByCategory))
+    }, [items, searchByTitle, searchByCategory])
     
     return(
         <ShoppingCartContext.Provider value= {{
@@ -70,7 +80,9 @@ export const ShoppingCartProvider = ({children}) => {
             setItems,
             searchByTitle,
             setSearchByTitle,
-            filteredItems
+            filteredItems,
+            searchByCategory,
+            setSearchByCategory
         }}>
             {children}
         </ShoppingCartContext.Provider>
