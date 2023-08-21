@@ -16,7 +16,8 @@ function MyOrders() {
             <Link key={index} to={`/my-orders/${index}`}>
               <OrdersCard 
                 totalPrice={order.totalPrice } 
-                totalProducts={order.totalProducts}/>
+                totalProducts={order.totalProducts}
+                date={order.date}/>
             </Link>
             ))
         }
